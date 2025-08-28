@@ -1,0 +1,133 @@
+<div class="container">
+    <header class="header">
+        <h1>Birthday Reminder</h1>
+        <div class="header-actions">
+            <button (click)="addFriend()" class="btn btn-primary">Add Friend</button>
+            <button (click)="logout()" class="btn btn-secondary">Logout</button>
+        </div>
+    </header>
+
+    <div class="controls">
+        <input type="text" placeholder="Search friends..." [value]="searchTerm()"
+            (input)="searchTerm.set($any($event.target).value)" class="search-input">
+    </div>
+
+    <table class="friends-table">
+        <thead>
+            <tr>
+                <th (click)="sort('firstName')">First Name ↕</th>
+                <th (click)="sort('lastName')">Last Name ↕</th>
+                <th (click)="sort('phone')">Phone ↕</th>
+                <th (click)="sort('city')">City ↕</th>
+                <th (click)="sort('birthdate')">Birthdate ↕</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (friend of sortedFriends; track friend.id) {
+            <tr>
+                <td>{{ friend.firstName }}</td>
+                <td>{{ friend.lastName }}</td>
+                <td>{{ friend.phone }}</td>
+                <td>{{ friend.city }}</td>
+                <td>{{ friend.birthdate }}</td>
+                <td>
+                    <button (click)="editFriend(friend)" class="btn btn-edit">Edit</button>
+                    <button (click)="deleteFriend(friend.id)" class="btn btn-delete">Delete</button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (showForm()) {
+    <div class="modal-overlay">
+        <div class="modal">
+            <h2>{{ editingFriend() ? 'Edit Friend' : 'Add Friend' }}</h2>
+
+            <form [formGroup]="friendForm" (ngSubmit)="saveFriend()" class="friend-form">
+                <div class="form-group">
+                    <label for="firstName">First Name *</label>
+                    <input type="text" id="firstName" formControlName="firstName"
+                        [class.invalid]="firstName?.invalid && firstName?.touched">
+                    @if (firstName?.invalid && firstName?.touched) {
+                    <div class="error-message">
+                        @if (firstName?.errors?.['required']) {
+                        <span>First name is required</span>
+                        }
+                        @if (firstName?.errors?.['minlength']) {
+                        <span>Minimum 2 characters required</span>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name *</label>
+                    <input type="text" id="lastName" formControlName="lastName"
+                        [class.invalid]="lastName?.invalid && lastName?.touched">
+                    @if (lastName?.invalid && lastName?.touched) {
+                    <div class="error-message">
+                        @if (lastName?.errors?.['required']) {
+                        <span>Last name is required</span>
+                        }
+                        @if (lastName?.errors?.['minlength']) {
+                        <span>Minimum 2 characters required</span>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone *</label>
+                    <input type="tel" id="phone" formControlName="phone" placeholder="07XXXXXXXX"
+                        [class.invalid]="phone?.invalid && phone?.touched">
+                    @if (phone?.invalid && phone?.touched) {
+                    <div class="error-message">
+                        @if (phone?.errors?.['required']) {
+                        <span>Phone number is required</span>
+                        }
+                        @if (phone?.errors?.['pattern']) {
+                        <span>Please enter a valid Romanian phone number (07XXXXXXXX)</span>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City *</label>
+                    <input type="text" id="city" formControlName="city"
+                        [class.invalid]="city?.invalid && city?.touched">
+                    @if (city?.invalid && city?.touched) {
+                    <div class="error-message">
+                        @if (city?.errors?.['required']) {
+                        <span>City is required</span>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="birthdate">Birthdate *</label>
+                    <input type="date" id="birthdate" formControlName="birthdate"
+                        [class.invalid]="birthdate?.invalid && birthdate?.touched">
+                    @if (birthdate?.invalid && birthdate?.touched) {
+                    <div class="error-message">
+                        @if (birthdate?.errors?.['required']) {
+                        <span>Birthdate is required</span>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" (click)="closeModal()" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="friendForm.invalid">
+                        {{ editingFriend() ? 'Update' : 'Add' }} Friend
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+</div>

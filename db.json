@@ -1,0 +1,29 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "email": "eve.holt@reqres.in",
+      "password": "cityslicka",
+      "firstName": "Eve",
+      "lastName": "Holt",
+      "token": "mock-token-12345"
+    },
+    {
+      "id": "fd7c",
+      "email": "lolstar009@gmail.com",
+      "password": "4172610Guts",
+      "firstName": "Alexuta",
+      "lastName": "Balca",
+      "token": "token-1755716636136-36qxf9ggk"
+    },
+    {
+      "id": "49dc",
+      "email": "saudegay@yahoo.com",
+      "password": "mamataemamamea",
+      "firstName": "gion",
+      "lastName": "bleach",
+      "token": "token-1755716874183-bbp9dbr3j"
+    }
+  ],
+  "friends": []
+}
